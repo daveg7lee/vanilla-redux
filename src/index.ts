@@ -21,7 +21,7 @@ const reducer: Reducer = (state = [], { type, text, id }: AnyAction) => {
     case ADD_TODO:
       return [{ text, id }, ...state];
     case DELETE_TODO:
-      return [];
+      return state.filter((toDo: ToDo) => toDo.id !== id);
     default:
       return state;
   }
@@ -58,7 +58,7 @@ store.subscribe(paintToDos);
 const onSubmit = (e: Event) => {
   e.preventDefault();
   const toDo = input.value;
-  const id = store.getState().length;
+  const id = store.getState().length.toString();
   input.value = "";
   dispatchAddToDo(toDo, id);
 };
