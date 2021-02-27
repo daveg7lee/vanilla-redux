@@ -1,39 +1,33 @@
-import { Action, createStore, Store } from "redux";
+import { AnyAction, createStore, Reducer, Store } from "redux";
 
-const add: HTMLElement | null = document.getElementById("add");
-const minus: HTMLElement | null = document.getElementById("minus");
-const number: any = document.querySelector("span");
+const form = document.querySelector("form");
+const input: any = document.querySelector("input");
+const ul = document.querySelector("ul");
 
-const ADD = "ADD";
-const MINUS = "MINUS";
+const ADD_TODO = "ADD_TODO";
+const DELETE_TODO = "DELETE_TODO";
 
-// Reducer
-const countModifier = (state = 0, { type }: Action): number => {
+const reducer: Reducer = (state = [], { type, text }: AnyAction) => {
+  console.log(type, text);
   switch (type) {
-    case ADD:
-      return state + 1;
-    case MINUS:
-      return state - 1;
+    case ADD_TODO:
+      return [];
+    case DELETE_TODO:
+      return [];
     default:
       return state;
   }
 };
 
-// Create Store
-const countStore: Store = createStore(countModifier);
+const store: Store = createStore(reducer);
 
-const onChange = () => {
-  number.innerText = countStore.getState();
+const onSubmit = (e: Event) => {
+  e.preventDefault();
+  const toDo = input.value;
+  input.value = "";
+  store.dispatch({ type: ADD_TODO, text: toDo });
 };
 
-countStore.subscribe(onChange);
+form?.addEventListener("submit", onSubmit);
 
-// add 1 when button is clicked
-add?.addEventListener("click", () => {
-  countStore.dispatch({ type: ADD });
-});
-
-// minus 1 when button is clicked
-minus?.addEventListener("click", () => {
-  countStore.dispatch({ type: MINUS });
-});
+export {};
