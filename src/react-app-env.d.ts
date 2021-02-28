@@ -6,8 +6,3 @@ export type ToDoType = {
   text: string;
   id: string;
 };
-
-export type reducerProps = {
-  type: string;
-  payload: string;
-};

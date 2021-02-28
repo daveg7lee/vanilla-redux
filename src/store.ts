@@ -1,30 +1,35 @@
 import { createStore } from "redux";
-import { reducerProps, ToDoType } from "./react-app-env";
-import { createAction } from "@reduxjs/toolkit";
+import { ToDoType } from "./react-app-env";
+import {
+  ActionCreatorWithPayload,
+  createAction,
+  createReducer,
+} from "@reduxjs/toolkit";
 
-const addToDo = createAction<string, "ADD">("ADD");
-const deleteToDo = createAction<string, "DEL">("DEL");
+const addToDo: ActionCreatorWithPayload<string, "ADD"> = createAction<
+  string,
+  "ADD"
+>("ADD");
+const deleteToDo: ActionCreatorWithPayload<string, "DEL"> = createAction<
+  string,
+  "DEL"
+>("DEL");
 
-const reducer = (
-  state: any = localStorage.getItem("toDos"),
-  { type, payload }: reducerProps
-) => {
-  switch (type) {
-    case addToDo.type:
-      const addedToDos = [
-        { text: payload, id: String(state.length) },
-        ...state,
-      ];
-      localStorage.setItem("toDos", JSON.stringify(addedToDos));
-      return addedToDos;
-    case deleteToDo.type:
+const reducer = createReducer(localStorage.getItem("toDos"), (builder) =>
+  builder
+    .addCase(addToDo, (state: any, { payload }) => {
+      state.push({ text: payload, id: String(state.length) });
+      localStorage.setItem("toDos", JSON.stringify(state));
+    })
+    .addCase(deleteToDo, (state: any, { payload }) => {
       const deletedToDo = state.filter((toDo: ToDoType) => toDo.id !== payload);
       localStorage.setItem("toDos", JSON.stringify(deletedToDo));
       return deletedToDo;
-    default:
+    })
+    .addDefaultCase((state: any) => {
       return JSON.parse(state);
-  }
-};
+    })
+);
 
 export const actionCreators = {
   addToDo,
