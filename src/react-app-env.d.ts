@@ -2,7 +2,7 @@
 
 import { type } from "os";
 
-export type ToDo = {
+export type ToDoType = {
   text: string;
   id: string;
 };
