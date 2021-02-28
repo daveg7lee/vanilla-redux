@@ -4,7 +4,7 @@ import { ToDo } from "./react-app-env";
 const ADD = "ADD";
 const DELETE = "DEL";
 
-export const addToDo = (text: string) => {
+const addToDo = (text: string) => {
   return {
     type: ADD,
     text,
@@ -12,7 +12,7 @@ export const addToDo = (text: string) => {
   };
 };
 
-export const deleteToDo = (id: string) => {
+const deleteToDo = (id: string) => {
   return {
     type: DELETE,
     id,
@@ -28,6 +28,11 @@ const reducer = (state: Array<ToDo> = [], { type, text, id }: AnyAction) => {
     default:
       return state;
   }
+};
+
+export const actionCreators = {
+  addToDo,
+  deleteToDo,
 };
 
 const store = createStore(reducer);
