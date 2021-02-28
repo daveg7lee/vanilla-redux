@@ -1,10 +1,10 @@
-import { createStore } from "redux";
-import { ToDoType } from "./react-app-env";
 import {
   ActionCreatorWithPayload,
+  configureStore,
   createAction,
   createReducer,
 } from "@reduxjs/toolkit";
+import { ToDoType } from "./react-app-env";
 
 const addToDo: ActionCreatorWithPayload<string, "ADD"> = createAction<
   string,
@@ -31,11 +31,11 @@ const reducer = createReducer(localStorage.getItem("toDos"), (builder) =>
     })
 );
 
+const store = configureStore({ reducer });
+
 export const actionCreators = {
   addToDo,
   deleteToDo,
 };
-
-const store = createStore(reducer);
 
 export default store;
