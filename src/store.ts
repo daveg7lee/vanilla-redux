@@ -1,5 +1,5 @@
-import { AnyAction, createStore } from "redux";
-import { ToDoType } from "./react-app-env";
+import { createStore } from "redux";
+import { reducerProps, ToDoType } from "./react-app-env";
 
 const ADD = "ADD";
 const DELETE = "DEL";
@@ -20,16 +20,20 @@ const deleteToDo = (id: string) => {
 };
 
 const reducer = (
-  state: Array<ToDoType> = [],
-  { type, text, id }: AnyAction
+  state: any = localStorage.getItem("toDos"),
+  { type, text, id }: reducerProps
 ) => {
   switch (type) {
     case ADD:
-      return [{ text, id }, ...state];
+      const addedToDos = [{ text, id }, ...state];
+      localStorage.setItem("toDos", JSON.stringify(addedToDos));
+      return addedToDos;
     case DELETE:
-      return state.filter((toDo: ToDoType) => toDo.id !== id);
+      const deletedToDo = state.filter((toDo: ToDoType) => toDo.id !== id);
+      localStorage.setItem("toDos", JSON.stringify(deletedToDo));
+      return deletedToDo;
     default:
-      return state;
+      return JSON.parse(state);
   }
 };
 
