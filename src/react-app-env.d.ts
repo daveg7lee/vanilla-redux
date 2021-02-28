@@ -9,6 +9,5 @@ export type ToDoType = {
 
 export type reducerProps = {
   type: string;
-  text: string;
-  id: string;
+  payload: string;
 };
