@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import ToDo from "../components/ToDo";
 import { ToDoType } from "../react-app-env";
-import { actionCreators } from "../store";
+import { add } from "../store";
 
 const Home = ({ toDos, addToDo }: any) => {
   const [text, setText] = useState<string>("");
@@ -36,7 +36,7 @@ const mapStateToProps = (state: Array<ToDoType>) => {
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
-    addToDo: (text: string) => dispatch(actionCreators.addToDo(text)),
+    addToDo: (text: string) => dispatch(add(text)),
   };
 };
 
